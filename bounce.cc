@@ -14,8 +14,8 @@ struct Particle{
 	double speed;
 };
 
-void draw(const Particle&, char []);
-void move(Particle&);
+void draw(const Particle*, char []);
+void move(Particle*);
 void clear_screen(char []);
 void print_screen(char []);
 
@@ -35,8 +35,8 @@ int main() {
 	while (timeStep < stopTime) {
 		clear_screen(screen);
 		for (int i=0; i<particleNumber; i++){
-			draw(particles[i],screen);
-			move(particles[i]);
+			draw(&particles[i],screen);
+			move(&particles[i]);
 		}
 		print_screen(screen);
 		timeStep++;
@@ -44,19 +44,19 @@ int main() {
 	delete [] screen;
 }
 
-void draw(const Particle& p, char *screen){
-	screen[static_cast<int>(p.position)]= p.symbol; 
+void draw(const Particle* p, char *screen){
+	screen[static_cast<int>(p->position)]= p->symbol; 
 }
 
-void move(Particle& p){
+void move(Particle* p){
   //move start
-    p.position += p.speed;
-    if (p.position >= maxColumn) {
-      p.position = maxColumn;
-      p.speed = -p.speed;
-    } else if (p.position < minColumn) {
-      p.position = minColumn;
-      p.speed = -p.speed;
+    p->position += p->speed;
+    if (p->position >= maxColumn) {
+      p->position = maxColumn;
+      p->speed = -p->speed;
+    } else if (p->position < minColumn) {
+      p->position = minColumn;
+      p->speed = -p->speed;
     }
 	//move stop
 }
