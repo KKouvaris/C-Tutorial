@@ -17,13 +17,13 @@ struct Screen{
 		this->buffer = new char[size];
 	}
 
-	void clear_screen(){
+	void clear(){
 		for (unsigned i =0; i<this->size; i++){
 			this->buffer[i] = ' ';
 		}
 	}
 
-	void print_screen() const {
+	void print() const {
 		for (unsigned i = 0; i<this->size; i++){
 			cout << this->buffer[i];
 		}
@@ -71,7 +71,6 @@ int main() {
 
 	int timeStep = 0;
 	const int stopTime = 60;
-
 	
 	Screen screen;
 	screen.initialise(maxColumn-minColumn+1);
@@ -85,12 +84,12 @@ int main() {
 	particles[3].initialise('o',4,4);
 	
 	while (timeStep < stopTime) {
-		screen.clear_screen();
+		screen.clear();
 		for (int i=0; i<particleNumber; i++){
 			particles[i].draw(screen.buffer);
 			particles[i].move();
 		}
-		screen.print_screen();
+		screen.print();
 		timeStep++;
 	}
 	screen.destroy();
