@@ -14,10 +14,10 @@ struct Particle{
 	double speed;
 };
 
-void draw(const Particle*, char []);
-void move(Particle*);
-void clear_screen(char []);
-void print_screen(char []);
+void draw(Particle const * const, char * const);
+void move(Particle* const);
+void clear_screen(char * const);
+void print_screen(char const * const);
 
 int main() {
 
@@ -44,11 +44,11 @@ int main() {
 	delete [] screen;
 }
 
-void draw(const Particle* p, char *screen){
+void draw(Particle const * const p, char * const screen){
 	screen[static_cast<int>(p->position)]= p->symbol; 
 }
 
-void move(Particle* p){
+void move(Particle* const p){
   //move start
     p->position += p->speed;
     if (p->position >= maxColumn) {
@@ -61,13 +61,13 @@ void move(Particle* p){
 	//move stop
 }
 
-void clear_screen(char *screen){
+void clear_screen(char * const screen){
 	for (int i =0; i<screenSize; i++){
 		i[screen] = ' ';
 	}
 }
 
-void print_screen(char *screen){
+void print_screen(char const * const screen){
 	for (int i = 0; i<screenSize; i++){
 		cout << *(screen + i);
 	}
