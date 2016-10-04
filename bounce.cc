@@ -14,6 +14,7 @@ struct Particle{
 	double speed;
 };
 
+void initialise(Particle * const, char, const double, const double);
 void draw(Particle const * const, char * const);
 void move(Particle* const);
 void clear_screen(char * const);
@@ -26,12 +27,14 @@ int main() {
 
 	char* screen = new char[screenSize];
 	
-	const int particleNumber = 4;	
-	Particle particles[particleNumber] = {	{'*',1,1},
-											{'+',2,2},
-											{'x',3,3},	
-											{'o',4,4}};
-											
+	const int particleNumber = 4;
+	Particle particles[particleNumber];	
+
+	initialise(&particles[0],'*',1,1);
+	initialise(&particles[1],'+',2,2);
+	initialise(&particles[2],'x',3,3);
+	initialise(&particles[3],'o',4,4);
+	
 	while (timeStep < stopTime) {
 		clear_screen(screen);
 		for (int i=0; i<particleNumber; i++){
@@ -42,6 +45,12 @@ int main() {
 		timeStep++;
 	}
 	delete [] screen;
+}
+
+void initialise(Particle * const p, char symbol, const double position, const double speed){
+	p->symbol = symbol;
+	p->position = position;
+	p->speed = speed;
 }
 
 void draw(Particle const * const p, char * const screen){
