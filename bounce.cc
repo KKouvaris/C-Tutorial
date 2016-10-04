@@ -33,7 +33,7 @@ struct Particle{
 		this->speed = speed;
 	}
 
-	void draw(char * const screen){
+	void draw(char * const screen) const {
 		screen[static_cast<int>(position)]= symbol; 
 	}
 	
