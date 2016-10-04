@@ -6,7 +6,35 @@ using std::cout; using std::endl;
 
 const int minColumn = 0;
 const int maxColumn = 80;
-const int screenSize = maxColumn - minColumn + 1;
+
+struct Screen{
+
+	unsigned size;
+	char * buffer;
+		
+	void initialise(const unsigned size){
+		this->size = size;
+		this->buffer = new char[size];
+	}
+
+	void clear_screen(){
+		for (unsigned i =0; i<this->size; i++){
+			this->buffer[i] = ' ';
+		}
+	}
+
+	void print_screen() const {
+		for (unsigned i = 0; i<this->size; i++){
+			cout << this->buffer[i];
+		}
+		cout << endl;
+	}
+	
+	void destroy(){
+		delete [] this->buffer;
+	}
+	
+};
 
 struct Particle{
 	
@@ -39,15 +67,14 @@ struct Particle{
 	
 };
 
-void clear_screen(char * const);
-void print_screen(char const * const);
-
 int main() {
 
 	int timeStep = 0;
 	const int stopTime = 60;
 
-	char* screen = new char[screenSize];
+	
+	Screen screen;
+	screen.initialise(maxColumn-minColumn+1);
 	
 	const int particleNumber = 4;
 	Particle particles[particleNumber];	
@@ -58,26 +85,13 @@ int main() {
 	particles[3].initialise('o',4,4);
 	
 	while (timeStep < stopTime) {
-		clear_screen(screen);
+		screen.clear_screen();
 		for (int i=0; i<particleNumber; i++){
-			particles[i].draw(screen);
+			particles[i].draw(screen.buffer);
 			particles[i].move();
 		}
-		print_screen(screen);
+		screen.print_screen();
 		timeStep++;
 	}
-	delete [] screen;
-}
-
-void clear_screen(char * const screen){
-	for (int i =0; i<screenSize; i++){
-		i[screen] = ' ';
-	}
-}
-
-void print_screen(char const * const screen){
-	for (int i = 0; i<screenSize; i++){
-		cout << *(screen + i);
-	}
-	cout << endl;
+	screen.destroy();
 }
