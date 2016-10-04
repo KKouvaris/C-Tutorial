@@ -17,24 +17,24 @@ struct Particle{
 	
 	//
 	void move(){
-		this->position += this->speed;
-		if (this->position >= maxColumn) {
-			this->position = maxColumn;
-			this->speed = -this->speed;
-		} else if (this->position < minColumn) {
-			this->position = minColumn;
-			this->speed = -this->speed;
+		position += speed;
+		if (position >= maxColumn) {
+			position = maxColumn;
+			speed = -speed;
+		} else if (position < minColumn) {
+			position = minColumn;
+			speed = -speed;
 		}
 	}
 
-	void initialise(const char sym, const double pos, const double sp){
-		this->symbol = sym;
-		this->position = pos;
-		this->speed = sp;
+	void initialise(const char symbol, const double position, const double speed){
+		this->symbol = symbol;
+		this->position = position;
+		this->speed = speed;
 	}
 
 	void draw(char * const screen){
-		screen[static_cast<int>(this->position)]= this->symbol; 
+		screen[static_cast<int>(position)]= symbol; 
 	}
 	
 };
