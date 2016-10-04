@@ -9,14 +9,36 @@ const int maxColumn = 80;
 const int screenSize = maxColumn - minColumn + 1;
 
 struct Particle{
+	
+	//properties
 	char symbol;
 	double position;
 	double speed;
+	
+	//
+	void move(){
+		this->position += this->speed;
+		if (this->position >= maxColumn) {
+			this->position = maxColumn;
+			this->speed = -this->speed;
+		} else if (this->position < minColumn) {
+			this->position = minColumn;
+			this->speed = -this->speed;
+		}
+	}
+
+	void initialise(const char sym, const double pos, const double sp){
+		this->symbol = sym;
+		this->position = pos;
+		this->speed = sp;
+	}
+
+	void draw(char * const screen){
+		screen[static_cast<int>(this->position)]= this->symbol; 
+	}
+	
 };
 
-void initialise(Particle * const, char, const double, const double);
-void draw(Particle const * const, char * const);
-void move(Particle* const);
 void clear_screen(char * const);
 void print_screen(char const * const);
 
@@ -30,44 +52,21 @@ int main() {
 	const int particleNumber = 4;
 	Particle particles[particleNumber];	
 
-	initialise(&particles[0],'*',1,1);
-	initialise(&particles[1],'+',2,2);
-	initialise(&particles[2],'x',3,3);
-	initialise(&particles[3],'o',4,4);
+	particles[0].initialise('*',1,1);
+	particles[1].initialise('+',2,2);
+	particles[2].initialise('x',3,3);
+	particles[3].initialise('o',4,4);
 	
 	while (timeStep < stopTime) {
 		clear_screen(screen);
 		for (int i=0; i<particleNumber; i++){
-			draw(&particles[i],screen);
-			move(&particles[i]);
+			particles[i].draw(screen);
+			particles[i].move();
 		}
 		print_screen(screen);
 		timeStep++;
 	}
 	delete [] screen;
-}
-
-void initialise(Particle * const p, char symbol, const double position, const double speed){
-	p->symbol = symbol;
-	p->position = position;
-	p->speed = speed;
-}
-
-void draw(Particle const * const p, char * const screen){
-	screen[static_cast<int>(p->position)]= p->symbol; 
-}
-
-void move(Particle* const p){
-  //move start
-    p->position += p->speed;
-    if (p->position >= maxColumn) {
-      p->position = maxColumn;
-      p->speed = -p->speed;
-    } else if (p->position < minColumn) {
-      p->position = minColumn;
-      p->speed = -p->speed;
-    }
-	//move stop
 }
 
 void clear_screen(char * const screen){
