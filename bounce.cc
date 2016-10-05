@@ -28,7 +28,7 @@ public:
 		cout << endl;
 	}
 	
-	void destroy(){
+	~Screen(){
 		delete [] this->buffer;
 	}
 	
@@ -101,5 +101,4 @@ int main() {
 		screen.print();
 		timeStep++;
 	}
-	screen.destroy();
 }
