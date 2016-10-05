@@ -7,12 +7,10 @@ using std::cout; using std::endl;
 const int minColumn = 0;
 const int maxColumn = 80;
 
-struct Screen{
+class Screen{
 
-	unsigned size;
-	char * buffer;
-		
-	void initialise(const unsigned size){
+public:
+	Screen(const unsigned size){
 		this->size = size;
 		this->buffer = new char[size];
 	}
@@ -34,16 +32,21 @@ struct Screen{
 		delete [] this->buffer;
 	}
 	
+	void put(int position, char symbol){
+		this->buffer[position]= symbol;
+	}
+
+
+private:
+	unsigned size;
+	char * buffer;
+	
 };
 
-struct Particle{
+class Particle{
 	
-	//properties
-	char symbol;
-	double position;
-	double speed;
-	
-	//
+public:	
+	//methods
 	void move(){
 		position += speed;
 		if (position >= maxColumn) {
@@ -61,10 +64,17 @@ struct Particle{
 		this->speed = speed;
 	}
 
-	void draw(char * const screen) const {
-		screen[static_cast<int>(position)]= symbol; 
+	void draw(Screen screen) const {
+		screen.put(position,symbol); 
 	}
 	
+
+private:
+	//properties
+	char symbol;
+	double position;
+	double speed;
+
 };
 
 int main() {
@@ -72,8 +82,7 @@ int main() {
 	int timeStep = 0;
 	const int stopTime = 60;
 	
-	Screen screen;
-	screen.initialise(maxColumn-minColumn+1);
+	Screen screen(maxColumn-minColumn+1);
 	
 	const int particleNumber = 4;
 	Particle particles[particleNumber];	
@@ -86,7 +95,7 @@ int main() {
 	while (timeStep < stopTime) {
 		screen.clear();
 		for (int i=0; i<particleNumber; i++){
-			particles[i].draw(screen.buffer);
+			particles[i].draw(screen);
 			particles[i].move();
 		}
 		screen.print();
