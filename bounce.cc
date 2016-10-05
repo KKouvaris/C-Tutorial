@@ -22,7 +22,10 @@ public:
 	~Screen(){
 		delete [] this->buffer;
 	}
-
+	
+	char& operator[](unsigned const pos){
+		return this->buffer[pos];
+	}
 	
 	void clear(){
 		for (unsigned i =0; i<this->size; i++){
@@ -65,7 +68,7 @@ public:
 	
 
 	void draw(Screen& screen) const {
-		screen.put(position,symbol); 
+		screen[position] = symbol; 
 	}
 	
 	void move(){
