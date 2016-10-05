@@ -1,6 +1,7 @@
 // N.B. This program contains a bug, on purpose.
 
 #include <iostream>
+#include <algorithm>
 
 using std::cout; using std::endl;
 
@@ -15,6 +16,11 @@ public:
 		this->buffer = new char[size];
 	}
 
+	Screen(const Screen& other):size(other.size){
+		//this->buffer = new char[other.size];
+		std::copy(other.buffer, other.buffer + other.size, this->buffer);
+	}
+	
 	~Screen(){
 		delete [] this->buffer;
 	}
