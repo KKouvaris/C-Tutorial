@@ -12,8 +12,7 @@ class Screen{
 
 public:
 	Screen(const unsigned size)
-	:size(size), buffer(new char[size]){
-	}
+	:size(size), buffer(new char[size]){}
 
 	Screen(const Screen& other)
 	:size(other.size), buffer(new char[size]){
@@ -23,6 +22,7 @@ public:
 	~Screen(){
 		delete [] this->buffer;
 	}
+
 	
 	void clear(){
 		for (unsigned i =0; i<this->size; i++){
@@ -51,7 +51,23 @@ private:
 class Particle{
 	
 public:	
-	//methods
+
+	Particle()
+	:symbol('o'),position(0),speed(0){}
+
+	Particle(const char symbol, const double position, const double speed)
+	:symbol(symbol),position(position),speed(speed){}
+	
+	~Particle(){}
+	
+	Particle(const Particle& other)
+	:symbol(other.symbol),position(other.position),speed(other.speed){}
+	
+
+	void draw(Screen& screen) const {
+		screen.put(position,symbol); 
+	}
+	
 	void move(){
 		position += speed;
 		if (position >= maxColumn) {
@@ -61,17 +77,7 @@ public:
 			position = minColumn;
 			speed = -speed;
 		}
-	}
-
-	void initialise(const char symbol, const double position, const double speed){
-		this->symbol = symbol;
-		this->position = position;
-		this->speed = speed;
-	}
-
-	void draw(Screen& screen) const {
-		screen.put(position,symbol); 
-	}
+	}	
 	
 
 private:
@@ -89,13 +95,12 @@ int main() {
 	
 	Screen screen(maxColumn-minColumn+1);
 	
-	const int particleNumber = 4;
-	Particle particles[particleNumber];	
+	const int particleNumber = 3;
+	Particle particles[particleNumber] = { Particle('*',1,1), Particle('+',2,2), Particle('x',3,3)};	
 
-	particles[0].initialise('*',1,1);
-	particles[1].initialise('+',2,2);
-	particles[2].initialise('x',3,3);
-	particles[3].initialise('o',4,4);
+	//particles[0] = Particle('*',1,1);
+	//particles[1] = Particle('+',2,2);
+	//particles[2] = Particle('x',3,3);
 	
 	while (timeStep < stopTime) {
 		screen.clear();
