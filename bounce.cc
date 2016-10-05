@@ -66,7 +66,15 @@ public:
 	Particle(const Particle& other)
 	:symbol(other.symbol),position(other.position),speed(other.speed){}
 	
-
+	Particle& operator=(const Particle& other){
+		if (this != &other){
+			this->symbol = other.symbol;
+			this->position = other.position;
+			this->speed = other.speed;
+		}
+		return *this;
+	}
+	
 	void draw(Screen& screen) const {
 		screen[position] = symbol; 
 	}
@@ -99,11 +107,11 @@ int main() {
 	Screen screen(maxColumn-minColumn+1);
 	
 	const int particleNumber = 3;
-	Particle particles[particleNumber] = { Particle('*',1,1), Particle('+',2,2), Particle('x',3,3)};	
+	Particle particles[particleNumber]; // = { Particle('*',1,1), Particle('+',2,2), Particle('x',3,3)};	
 
-	//particles[0] = Particle('*',1,1);
-	//particles[1] = Particle('+',2,2);
-	//particles[2] = Particle('x',3,3);
+	particles[0] = Particle('*',1,1);
+	particles[1] = Particle('+',2,2);
+	particles[2] = Particle('x',3,3);
 	
 	while (timeStep < stopTime) {
 		screen.clear();
