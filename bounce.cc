@@ -11,13 +11,12 @@ const int maxColumn = 80;
 class Screen{
 
 public:
-	Screen(const unsigned size){
-		this->size = size;
-		this->buffer = new char[size];
+	Screen(const unsigned size)
+	:size(size), buffer(new char[size]){
 	}
 
-	Screen(const Screen& other):size(other.size){
-		//this->buffer = new char[other.size];
+	Screen(const Screen& other)
+	:size(other.size), buffer(new char[size]){
 		std::copy(other.buffer, other.buffer + other.size, this->buffer);
 	}
 	
