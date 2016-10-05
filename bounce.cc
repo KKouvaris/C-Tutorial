@@ -64,7 +64,7 @@ public:
 		this->speed = speed;
 	}
 
-	void draw(Screen screen) const {
+	void draw(Screen& screen) const {
 		screen.put(position,symbol); 
 	}
 	
