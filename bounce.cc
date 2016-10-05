@@ -15,6 +15,10 @@ public:
 		this->buffer = new char[size];
 	}
 
+	~Screen(){
+		delete [] this->buffer;
+	}
+	
 	void clear(){
 		for (unsigned i =0; i<this->size; i++){
 			this->buffer[i] = ' ';
@@ -27,11 +31,7 @@ public:
 		}
 		cout << endl;
 	}
-	
-	~Screen(){
-		delete [] this->buffer;
-	}
-	
+		
 	void put(int position, char symbol){
 		this->buffer[position]= symbol;
 	}
