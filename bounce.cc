@@ -11,44 +11,15 @@ const int maxColumn = 80;
 class Screen{
 
 public:
-	Screen(const unsigned size)
-	:size(size), buffer(new char[size]){}
-
-	Screen(const Screen& other)
-	:size(other.size), buffer(new char[size]){
-		std::copy(other.buffer, other.buffer + other.size, this->buffer);
-	}
+	Screen(const unsigned);
+	Screen(const Screen&);
+	~Screen();
+	Screen& operator=(Screen);
+	char& operator[](unsigned const);
+	void clear();
+	void print() const;
+	void put(int, char);
 	
-	~Screen(){
-		delete [] this->buffer;
-	}
-
-	Screen& operator=(Screen other){	
-		swap(*this,other);
-		return *this;
-	}	
-	
-	char& operator[](unsigned const pos){
-		return this->buffer[pos];
-	}
-	
-	void clear(){
-		for (unsigned i =0; i<this->size; i++){
-			this->buffer[i] = ' ';
-		}
-	}
-
-	void print() const {
-		for (unsigned i = 0; i<this->size; i++){
-			cout << this->buffer[i];
-		}
-		cout << endl;
-	}
-		
-	void put(int position, char symbol){
-		this->buffer[position]= symbol;
-	}
-
 	friend void swap(Screen& lhs, Screen& rhs);
 
 private:
@@ -57,22 +28,84 @@ private:
 	
 };
 
+	Screen::Screen(const unsigned size)
+	:size(size), buffer(new char[size]){}
+	
+	Screen::Screen(const Screen& other)
+	:size(other.size), buffer(new char[size]){
+		std::copy(other.buffer, other.buffer + other.size, this->buffer);
+	}
+	
+	Screen::~Screen(){
+		delete [] this->buffer;
+	}
+
+	Screen& Screen::operator=(Screen other){	
+		swap(*this,other);
+		return *this;
+	}	
+	
+	char& Screen::operator[](unsigned const pos){
+		return this->buffer[pos];
+	}
+	
+	void Screen::clear(){
+		for (unsigned i =0; i<this->size; i++){
+			this->buffer[i] = ' ';
+		}
+	}
+
+	void Screen::print() const {
+		for (unsigned i = 0; i<this->size; i++){
+			cout << this->buffer[i];
+		}
+		cout << endl;
+	}
+		
+	void Screen::put(int position, char symbol){
+		this->buffer[position]= symbol;
+	}
+
+	void swap(Screen& lhs, Screen& rhs){
+	//swap
+	using std::swap;
+	swap(lhs.buffer,rhs.buffer);
+	swap(lhs.size,rhs.size);	
+}
+
+
 class Particle{
 	
 public:	
 
-	Particle()
+	Particle();
+	Particle(const char, const double, const double);
+	~Particle();
+	Particle(const Particle&);
+	Particle& operator=(const Particle&);
+	void draw(Screen&) const;
+	void move();
+
+private:
+	//properties
+	char symbol;
+	double position;
+	double speed;
+
+};
+
+	Particle::Particle()
 	:symbol('o'),position(0),speed(0){}
 
-	Particle(const char symbol, const double position, const double speed)
+	Particle::Particle(const char symbol, const double position, const double speed)
 	:symbol(symbol),position(position),speed(speed){}
 	
-	~Particle(){}
+	Particle::~Particle(){}
 	
-	Particle(const Particle& other)
+	Particle::Particle(const Particle& other)
 	:symbol(other.symbol),position(other.position),speed(other.speed){}
 	
-	Particle& operator=(const Particle& other){
+	Particle& Particle::operator=(const Particle& other){
 		if (this != &other){
 			this->symbol = other.symbol;
 			this->position = other.position;
@@ -81,11 +114,11 @@ public:
 		return *this;
 	}
 	
-	void draw(Screen& screen) const {
+	void Particle::draw(Screen& screen) const {
 		screen[position] = symbol; 
 	}
 	
-	void move(){
+	void Particle::move(){
 		position += speed;
 		if (position >= maxColumn) {
 			position = maxColumn;
@@ -96,22 +129,6 @@ public:
 		}
 	}	
 	
-
-private:
-	//properties
-	char symbol;
-	double position;
-	double speed;
-
-};
-
-void swap(Screen& lhs, Screen& rhs){
-	//swap
-	using std::swap;
-	swap(lhs.buffer,rhs.buffer);
-	swap(lhs.size,rhs.size);	
-}
-
 
 int main() {
 
