@@ -4,7 +4,6 @@
 #include <algorithm>
 
 using std::cout; using std::endl;
-using std::swap;
 
 const int minColumn = 0;
 const int maxColumn = 80;
@@ -24,12 +23,8 @@ public:
 		delete [] this->buffer;
 	}
 
-	Screen& operator=(Screen other){
-		
-		//swap
-		swap(buffer,other.buffer);
-		swap(size,other.size);
-		
+	Screen& operator=(Screen other){	
+		swap(*this,other);
 		return *this;
 	}	
 	
@@ -54,6 +49,7 @@ public:
 		this->buffer[position]= symbol;
 	}
 
+	friend void swap(Screen& lhs, Screen& rhs);
 
 private:
 	unsigned size;
@@ -108,6 +104,14 @@ private:
 	double speed;
 
 };
+
+void swap(Screen& lhs, Screen& rhs){
+	//swap
+	using std::swap;
+	swap(lhs.buffer,rhs.buffer);
+	swap(lhs.size,rhs.size);	
+}
+
 
 int main() {
 
