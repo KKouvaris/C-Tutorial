@@ -4,6 +4,7 @@
 #include <algorithm>
 
 using std::cout; using std::endl;
+using std::swap;
 
 const int minColumn = 0;
 const int maxColumn = 80;
@@ -23,19 +24,12 @@ public:
 		delete [] this->buffer;
 	}
 
-	Screen& operator=(const Screen& other){
-		if (this != &other){
-			if (this->size != other.size){
-				//Deallocate old memory
-				delete this;		
-				//Copy size
-				this->size = other.size;
-				//Allocate new memory
-				this->buffer = new char[other.size];
-			}
-			//Copy data
-			std::copy(other.buffer, other.buffer + other.size, this->buffer);
-		}
+	Screen& operator=(Screen other){
+		
+		//swap
+		swap(buffer,other.buffer);
+		swap(size,other.size);
+		
 		return *this;
 	}	
 	
