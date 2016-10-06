@@ -1,3 +1,7 @@
+#include <iostream>
+#include <fstream>
+#include <string>
+#include <cstdlib>
 #include "Particle.hh"
 #include "Screen.hh"
 
@@ -5,26 +9,38 @@ const int minColumn = 0;
 const int maxColumn = 80;
 
 int main() {
-
 	int timeStep = 0;
 	const int stopTime = 60;
-	
-	Screen screen(maxColumn-minColumn+1);
-	
-	const int particleNumber = 3;
-	Particle particles[particleNumber]; // = { Particle('*',1,1), Particle('+',2,2), Particle('x',3,3)};	
 
-	particles[0] = Particle('*',1,1);
-	particles[1] = Particle('+',2,2);
-	particles[2] = Particle('x',3,3);
+	Screen screen(maxColumn-minColumn+1);	
 	
+	std::string filename("config.txt");
+	std::ifstream config(filename.c_str());
+	if (!config){
+		std::cerr << "Could not open file." << std::endl;
+		return EXIT_FAILURE;
+	}
+	
+	unsigned particleNumber;	
+	//read the number of particles
+	config >> particleNumber;
+	
+	Particle* particles = new Particle[particleNumber];
+	//read particles' values
+	for (unsigned i=0; i<particleNumber; i++){
+		char sym; double pos, sp;
+		config >> sym >> pos >> sp;
+		particles[i] =  Particle(sym,pos,sp);
+	}
+
 	while (timeStep < stopTime) {
 		screen.clear();
-		for (int i=0; i<particleNumber; i++){
+		for (unsigned i=0; i<particleNumber; i++){
 			particles[i].draw(screen);
 			particles[i].move();
 		}
 		screen.print();
 		timeStep++;
 	}
+	delete [] particles;
 }
