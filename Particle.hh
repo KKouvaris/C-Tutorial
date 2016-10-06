@@ -1,7 +1,10 @@
 #ifndef Particle_hh
 #define Particle_hh
 
-#include "Screen.hh"
+extern const int minColumn;
+extern const int maxColumn;
+
+class Screen;
 
 class Particle{
 	

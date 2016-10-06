@@ -1,6 +1,8 @@
-#include <algorithm>
 #include "Particle.hh"
 #include "Screen.hh"
+
+const int minColumn = 0;
+const int maxColumn = 80;
 
 int main() {
 

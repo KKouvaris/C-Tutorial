@@ -1,5 +1,8 @@
+#include <iostream>
+#include <algorithm>
 #include "Screen.hh"
-#include "Particle.hh"
+
+using std::cout; using std::endl;
 
 Screen::Screen(const unsigned size)
 :size(size), buffer(new char[size]){}

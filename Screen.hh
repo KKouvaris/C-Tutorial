@@ -1,13 +1,6 @@
 #ifndef Screen_hh
 #define Screen_hh
 
-#include <iostream>
-
-using std::cout; using std::endl;
-
-const int minColumn = 0;
-const int maxColumn = 80;
-
 class Screen{
 
 public:
