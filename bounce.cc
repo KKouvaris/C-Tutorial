@@ -22,6 +22,22 @@ public:
 	~Screen(){
 		delete [] this->buffer;
 	}
+
+	Screen& operator=(const Screen& other){
+		if (this != &other){
+			if (this->size != other.size){
+				//Deallocate old memory
+				delete this;		
+				//Copy size
+				this->size = other.size;
+				//Allocate new memory
+				this->buffer = new char[other.size];
+			}
+			//Copy data
+			std::copy(other.buffer, other.buffer + other.size, this->buffer);
+		}
+		return *this;
+	}	
 	
 	char& operator[](unsigned const pos){
 		return this->buffer[pos];
