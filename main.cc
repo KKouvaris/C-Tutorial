@@ -18,7 +18,7 @@ int main() {
 		return EXIT_FAILURE;
 	}
 	
-	Array particles;
+	Array <Particle> particles;
 	while (config){
 		Particle p;
 		config >> p;
