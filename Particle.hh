@@ -14,14 +14,14 @@ public:
 
 	Particle();
 	Particle(const char, const double, const double);
-	~Particle();
+	virtual ~Particle();
 	Particle(const Particle&);
 	Particle& operator=(const Particle&);
 	void draw(Screen&) const;
-	void move();
+	virtual void move();
 	friend std::istream& operator>>(std::istream&, Particle&);
 
-private:
+protected:
 	//properties
 	char symbol;
 	double position;

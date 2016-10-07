@@ -4,6 +4,7 @@
 #include <vector>
 #include <cstdlib>
 #include "Particle.hh"
+#include "MagicParticle.hh"
 #include "Screen.hh"
 
 const int minColumn = 0;
@@ -18,14 +19,23 @@ int main() {
 		return EXIT_FAILURE;
 	}
 	
-	std::vector<Particle> particles;
+	
+	std::vector<Particle*> particles;
 	while (config){
-		Particle p;
-		config >> p;
+		char kind;
+		config >> kind;
 		if (!config) break;
-		particles.push_back(p);
+		Particle* ptcl;
+		char c; double p,s;
+		config >> c >> p >> s;
+		if (kind == 1){
+			ptcl = new MagicParticle(c,p,s);
+		}else{
+			ptcl = new Particle(c,p,s);
+		}
+		particles.push_back(ptcl);
 	}
-
+	
 	Screen screen(maxColumn-minColumn+1);
 	int timeStep = 0;
 	const int stopTime = 60;	
@@ -33,11 +43,13 @@ int main() {
 	while (timeStep < stopTime) {
 		screen.clear();
 		for (unsigned i=0; i<particles.size(); i++){
-			particles[i].draw(screen);
-			particles[i].move();
+			particles[i]->draw(screen);
+			particles[i]->move();
 		}
 		screen.print();
 		timeStep++;
 	}
+	for (unsigned i=0; i<particles.size(); i++)
+		delete particles[i];
 	//delete particles;
 }
