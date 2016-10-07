@@ -4,15 +4,12 @@
 #include <cstdlib>
 #include "Particle.hh"
 #include "Screen.hh"
+#include "Array.hh"
 
 const int minColumn = 0;
 const int maxColumn = 80;
 
 int main() {
-	int timeStep = 0;
-	const int stopTime = 60;
-
-	Screen screen(maxColumn-minColumn+1);	
 	
 	std::string filename("config.txt");
 	std::ifstream config(filename.c_str());
@@ -21,26 +18,26 @@ int main() {
 		return EXIT_FAILURE;
 	}
 	
-	unsigned particleNumber;	
-	//read the number of particles
-	config >> particleNumber;
-	
-	Particle* particles = new Particle[particleNumber];
-	//read particles' values
-	for (unsigned i=0; i<particleNumber; i++){
-		char sym; double pos, sp;
-		config >> sym >> pos >> sp;
-		particles[i] =  Particle(sym,pos,sp);
+	Array particles;
+	while (config){
+		Particle p;
+		config >> p;
+		if (!config) break;
+		particles.push_back(p);
 	}
 
+	Screen screen(maxColumn-minColumn+1);
+	int timeStep = 0;
+	const int stopTime = 60;	
+	
 	while (timeStep < stopTime) {
 		screen.clear();
-		for (unsigned i=0; i<particleNumber; i++){
+		for (unsigned i=0; i<particles.size(); i++){
 			particles[i].draw(screen);
 			particles[i].move();
 		}
 		screen.print();
 		timeStep++;
 	}
-	delete [] particles;
+	//delete particles;
 }

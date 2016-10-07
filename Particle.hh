@@ -1,6 +1,8 @@
 #ifndef Particle_hh
 #define Particle_hh
 
+#include <iostream>
+
 extern const int minColumn;
 extern const int maxColumn;
 
@@ -17,6 +19,7 @@ public:
 	Particle& operator=(const Particle&);
 	void draw(Screen&) const;
 	void move();
+	friend std::istream& operator>>(std::istream&, Particle&);
 
 private:
 	//properties

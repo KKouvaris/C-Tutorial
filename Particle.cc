@@ -1,6 +1,9 @@
 	#include "Particle.hh"
 	#include "Screen.hh"
-
+	
+	#include <cstdlib>
+	#include <iostream>
+	
 	Particle::Particle()
 	:symbol('o'),position(0),speed(0){}
 
@@ -20,7 +23,7 @@
 		}
 		return *this;
 	}
-	
+		
 	void Particle::draw(Screen& screen) const {
 		screen[position] = symbol; 
 	}
@@ -36,3 +39,6 @@
 		}
 	}	
 	
+	std::istream& operator>>(std::istream& in, Particle& p){
+		return in >> p.symbol >> p.position >> p.speed;
+	}
