@@ -1,10 +1,10 @@
 #include <iostream>
 #include <fstream>
 #include <string>
+#include <vector>
 #include <cstdlib>
 #include "Particle.hh"
 #include "Screen.hh"
-#include "Array.hh"
 
 const int minColumn = 0;
 const int maxColumn = 80;
@@ -18,7 +18,7 @@ int main() {
 		return EXIT_FAILURE;
 	}
 	
-	Array <Particle> particles;
+	std::vector<Particle> particles;
 	while (config){
 		Particle p;
 		config >> p;
